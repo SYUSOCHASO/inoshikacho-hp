@@ -1,0 +1,717 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   訪問介護サービスいのしかちょう
+   ロゴ（header-logo.jpg）から抽出した配色をベースにした共通スタイル
+   ========================================================================== */
+
+:root {
+  /* --- ロゴ由来のカラー --------------------------------------------- */
+  --green-deep: #6f8c34;   /* 文字・ボタンに使う濃い緑（読みやすさ確保用） */
+  --green: #a4b557;        /* ロゴの葉の緑（メインカラー） */
+  --green-light: #b2d173;  /* ロゴの葉のハイライト */
+  --green-pale: #eef3e0;   /* 背景に敷く極薄の緑 */
+
+  --brown-deep: #4a3320;   /* 本文テキスト（黒は使わない） */
+  --brown: #694223;        /* ロゴの文字色 */
+  --brown-mid: #8f5b2c;
+  --camel: #d99e58;        /* 鹿・イノシシの体の色 */
+
+  --gold: #f1ab36;         /* 蝶の色（アクセント） */
+  --gold-light: #f5ca66;
+  --marker: #f7e6a8;       /* 見出しのマーカー帯 */
+
+  --salmon: #f7baa5;       /* 手のひらの曲線の色 */
+  --cream: #f8e8ce;
+  --cream-bg: #fdf6ea;     /* セクション交互の背景 */
+  --white: #fffdf9;        /* 純白ではなく、わずかに暖かい白 */
+
+  --line: #e9e0d2;
+
+  /* --- サイズ -------------------------------------------------------- */
+  --wrap: 1080px;
+  --wrap-narrow: 880px;
+  --radius: 20px;
+  --radius-lg: 32px;
+
+  --shadow-soft: 0 10px 30px rgba(105, 66, 35, .07);
+  --shadow-card: 0 14px 34px rgba(105, 66, 35, .10);
+}
+
+/* --------------------------------------------------------------------------
+   ベース
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--brown-deep);
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-size: 17px;          /* 既存サイトより少し大きめ（高齢のご家族も読むため） */
+  line-height: 2;
+  letter-spacing: .04em;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; vertical-align: bottom; }
+
+a { color: var(--green-deep); text-decoration: none; transition: opacity .25s; }
+a:hover { opacity: .7; }
+
+h1, h2, h3, h4 {
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  line-height: 1.6;
+  margin: 0;
+}
+
+p { margin: 0 0 1.2em; }
+p:last-child { margin-bottom: 0; }
+
+.wrap { width: min(100% - 48px, var(--wrap)); margin-inline: auto; }
+.wrap-narrow { width: min(100% - 48px, var(--wrap-narrow)); margin-inline: auto; }
+
+/* --------------------------------------------------------------------------
+   ヘッダー
+   -------------------------------------------------------------------------- */
+.header {
+  background: var(--white);
+  position: relative;
+  z-index: 20;
+}
+
+.header__inner {
+  width: min(100% - 40px, 1180px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0 12px;
+}
+
+.header__logo img { width: 280px; }
+
+.header__contact {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__tel { text-align: right; line-height: 1.5; }
+
+.header__tel-lead {
+  display: block;
+  font-size: 12px;
+  color: var(--brown-mid);
+  letter-spacing: .06em;
+}
+
+.header__tel-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--green-deep);
+  letter-spacing: .02em;
+}
+
+.header__tel-num svg { width: 26px; height: 26px; }
+
+.header__tel-time {
+  display: block;
+  font-size: 12px;
+  color: var(--brown-mid);
+}
+
+/* ボタン（共通） */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  background: var(--green-deep);
+  color: #fff;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: .06em;
+  box-shadow: 0 6px 16px rgba(111, 140, 52, .28);
+  transition: transform .25s, box-shadow .25s, opacity .25s;
+}
+
+.btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(111, 140, 52, .34);
+}
+
+.btn svg { width: 18px; height: 18px; }
+
+.btn--header { padding: 15px 26px; font-size: 15px; }
+
+.btn--gold {
+  background: var(--gold);
+  box-shadow: 0 6px 16px rgba(241, 171, 54, .30);
+}
+.btn--gold:hover { box-shadow: 0 10px 22px rgba(241, 171, 54, .36); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--green-deep);
+  border: 2px solid var(--green);
+  box-shadow: none;
+}
+.btn--ghost:hover { background: var(--green-pale); box-shadow: none; }
+
+/* もっと見る */
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 40px 13px 34px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--green);
+  color: var(--green-deep);
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  letter-spacing: .08em;
+  transition: background .25s, color .25s, transform .25s;
+}
+
+.more::after {
+  content: "";
+  width: 7px; height: 7px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform .25s;
+}
+
+.more:hover {
+  opacity: 1;
+  background: var(--green);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.more:hover::after { transform: rotate(45deg) translate(2px, -2px); }
+
+.more-wrap { text-align: center; margin-top: 52px; }
+
+/* --------------------------------------------------------------------------
+   グローバルナビ
+   -------------------------------------------------------------------------- */
+.gnav { border-top: 1px solid var(--line); }
+
+.gnav__list {
+  width: min(100% - 40px, 1180px);
+  margin-inline: auto;
+  list-style: none;
+  padding: 0;
+  margin-block: 0;
+  display: flex;
+}
+
+/* --- ハンバーガーボタン（モバイルのみ表示） ---------------------------- */
+.gnav__toggle {
+  display: none;              /* PC では出さない */
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .1em;
+  color: var(--brown-deep);
+}
+
+/* 三本線。中央の線は要素そのもの、上下は擬似要素で描く */
+.gnav__toggle-icon {
+  position: relative;
+  display: block;
+  width: 19px;
+  height: 2px;
+  background: var(--brown);
+  border-radius: 2px;
+  transition: background-color .2s ease;
+}
+
+.gnav__toggle-icon::before,
+.gnav__toggle-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 19px;
+  height: 2px;
+  background: var(--brown);
+  border-radius: 2px;
+  transition: transform .3s cubic-bezier(.22, .68, .3, 1);
+}
+
+.gnav__toggle-icon::before { top: -6px; }
+.gnav__toggle-icon::after  { top: 6px; }
+
+/* 開いている間は × に変える */
+.gnav.is-open .gnav__toggle-icon { background: transparent; }
+.gnav.is-open .gnav__toggle-icon::before { transform: translateY(6px) rotate(45deg); }
+.gnav.is-open .gnav__toggle-icon::after  { transform: translateY(-6px) rotate(-45deg); }
+
+.gnav__list li { flex: 1 1 0; }
+
+/* 項目名の長さに応じて幅を配分する。
+   事業所名が長いので広く、ホームは短いので狭く取る。 */
+.gnav__list .gnav__about { flex: 1.55 1 0; }
+.gnav__list .gnav__home  { flex: .62 1 0; }
+
+.gnav__list a {
+  display: block;
+  padding: 18px 8px;
+  text-align: center;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--brown-deep);
+  letter-spacing: .04em;
+  border-bottom: 3px solid transparent;
+  transition: color .25s, border-color .25s, background .25s;
+}
+
+.gnav__list a:hover {
+  opacity: 1;
+  color: var(--green-deep);
+  background: var(--green-pale);
+}
+
+.gnav__list a[aria-current="page"] {
+  color: var(--green-deep);
+  border-bottom-color: var(--green);
+}
+
+/* ハンバーガー（スマホ用） */
+.gnav__toggle { display: none; }
+
+/* --------------------------------------------------------------------------
+   セクションの区切り（ゆるやかな丘のカーブ）
+   ※既存サイトの「波線」とは別の形にしている
+   -------------------------------------------------------------------------- */
+.divider { display: block; width: 100%; height: auto; line-height: 0; }
+.divider svg { display: block; width: 100%; height: clamp(40px, 6vw, 88px); }
+
+/* ヒーロー直下だけは写真に重ね、白い帯を挟まず波で直接区切る */
+.hero + .divider {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * clamp(40px, 6vw, 88px));
+}
+
+/* --------------------------------------------------------------------------
+   セクション共通
+   -------------------------------------------------------------------------- */
+.section { padding: 84px 0 92px; }
+.section--cream { background: var(--cream-bg); }
+.section--tight { padding-top: 56px; }
+
+.sec-head { text-align: center; margin-bottom: 56px; }
+
+.sec-head__ja {
+  display: inline-block;
+  position: relative;
+  font-size: clamp(26px, 3.4vw, 34px);
+  color: var(--brown);
+  letter-spacing: .08em;
+}
+
+/* 見出しの下に敷くマーカー帯（既存はベタ塗り、こちらは柔らかいグラデ） */
+.sec-head__ja::after {
+  content: "";
+  position: absolute;
+  left: -6px; right: -6px; bottom: 4px;
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(247,230,168,0) 0%, var(--marker) 14%, var(--marker) 86%, rgba(247,230,168,0) 100%);
+  z-index: -1;
+}
+
+.sec-head__en {
+  display: block;
+  margin-top: 10px;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .22em;
+  color: var(--green-deep);
+}
+
+/* 見出しに添える葉 */
+.sec-head__leaf { width: 26px; height: 26px; vertical-align: -4px; }
+.sec-head__leaf--l { margin-right: 12px; }
+.sec-head__leaf--r { margin-left: 12px; transform: scaleX(-1); }
+
+.lead { text-align: center; }
+
+/* --------------------------------------------------------------------------
+   ヒーロー
+   -------------------------------------------------------------------------- */
+.hero { position: relative; overflow: hidden; }
+
+.hero__img {
+  width: 100%;
+  height: clamp(360px, 52vw, 620px);
+  object-fit: cover;
+  object-position: 62% 46%;
+}
+
+.hero__copy {
+  position: absolute;
+  right: clamp(24px, 8vw, 132px);
+  bottom: clamp(56px, 12vw, 132px);
+  text-align: right;
+}
+
+.hero__copy p {
+  margin: 0 0 14px;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: clamp(24px, 4.1vw, 46px);
+  line-height: 1.5;
+  letter-spacing: .1em;
+  color: var(--brown);
+  text-shadow: 0 2px 14px rgba(255, 253, 249, .9), 0 0 30px rgba(255, 253, 249, .85);
+}
+
+.hero__copy p:last-child { margin-bottom: 0; margin-right: 1.2em; }
+
+/* --------------------------------------------------------------------------
+   事業内容（トップ）
+   -------------------------------------------------------------------------- */
+.services {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 34px 40px;
+}
+
+.service {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 38px 34px 34px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.service:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+
+.service__icon {
+  flex: 0 0 auto;
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--green-pale);
+}
+
+.service:nth-child(2) .service__icon { background: #fdf1d9; }
+.service:nth-child(3) .service__icon { background: #fbeae2; }
+.service:nth-child(4) .service__icon { background: #f4efe4; }
+
+.service__icon svg { width: 46px; height: 46px; }
+
+.service__title {
+  font-size: 21px;
+  color: var(--brown);
+  margin-bottom: 10px;
+  letter-spacing: .06em;
+}
+
+.service__text { font-size: 15.5px; line-height: 1.95; margin: 0; }
+
+/* --------------------------------------------------------------------------
+   About
+   -------------------------------------------------------------------------- */
+.about__title {
+  text-align: center;
+  font-size: clamp(24px, 3.2vw, 32px);
+  color: var(--brown);
+  line-height: 1.5;
+  letter-spacing: .08em;
+}
+
+.about__title small {
+  display: block;
+  font-size: .62em;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.about__body { margin-top: 40px; }
+
+/* --------------------------------------------------------------------------
+   採用
+   -------------------------------------------------------------------------- */
+.recruit {
+  position: relative;
+  padding: 110px 0 120px;
+  /* PCでは背景を固定してスクロールで奥行きを出す（iOS Safari は仕様上 scroll になる） */
+  background: var(--green-pale) center / cover no-repeat fixed;
+}
+
+.recruit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 253, 249, .34);
+}
+
+.recruit__card {
+  position: relative;
+  background: rgba(255, 253, 249, .93);
+  border-radius: var(--radius-lg);
+  padding: 56px clamp(28px, 5vw, 72px) 52px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.recruit__catch {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: clamp(19px, 2.4vw, 24px);
+  color: var(--gold);
+  letter-spacing: .08em;
+  margin: 0 0 26px;
+}
+
+.recruit__text { margin: 0; }
+.recruit__text span { display: block; }
+
+/* --------------------------------------------------------------------------
+   フッター
+   -------------------------------------------------------------------------- */
+.footer { background: var(--white); padding: 76px 0 0; }
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(32px, 8vw, 110px);
+  text-align: center;
+}
+
+.footer__logo img { width: 270px; }
+
+.footer__address {
+  margin-top: 18px;
+  font-size: 14.5px;
+  line-height: 1.9;
+  color: var(--brown-deep);
+}
+
+.footer__contact { font-size: 15px; line-height: 2; padding-top: 12px; }
+
+.footer__cta { text-align: center; margin-top: 46px; }
+
+/* フッターの飾り（ロゴの葉・蝶をあしらう） */
+.footer__deco { text-align: center; margin-top: 40px; }
+.footer__deco svg { width: min(300px, 76%); height: auto; }
+
+.footer__links { text-align: center; margin-top: 26px; font-size: 14.5px; }
+
+.footer__copy {
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+  padding: 22px 0 26px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--brown-mid);
+  letter-spacing: .04em;
+}
+
+/* --------------------------------------------------------------------------
+   ページトップ
+   -------------------------------------------------------------------------- */
+.pagetop {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--green-deep);
+  box-shadow: 0 8px 20px rgba(74, 51, 32, .22);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity .3s, visibility .3s, transform .3s;
+  z-index: 30;
+}
+
+.pagetop.is-visible { opacity: 1; visibility: visible; transform: none; }
+.pagetop:hover { opacity: .85; }
+
+.pagetop::before {
+  content: "";
+  width: 11px; height: 11px;
+  border-top: 2.5px solid #fff;
+  border-right: 2.5px solid #fff;
+  transform: rotate(-45deg) translate(-2px, 2px);
+}
+
+/* --------------------------------------------------------------------------
+   レスポンシブ
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .services { grid-template-columns: 1fr; gap: 22px; }
+  .header__inner { flex-wrap: wrap; justify-content: center; row-gap: 12px; }
+  .header__logo img { width: 245px; }
+  /* JS が動くときだけ畳む。動かない環境では今までどおり全項目を並べる。 */
+  .js-nav .gnav { border-top: none; }
+
+  /* スクロールしても常に画面の右上に残す */
+  .js-nav .gnav__toggle {
+    display: flex;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 60;
+  }
+
+  /* メニュー本体はボタンの下にパネルとして開く */
+  .js-nav .gnav__list {
+    position: fixed;
+    top: 66px;
+    right: 14px;
+    left: 14px;
+    z-index: 59;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 18px 40px rgba(105, 66, 35, .16);
+    padding: 4px;
+    transform: translateY(-10px) scale(.97);
+    transform-origin: top center;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform .34s cubic-bezier(.22, .68, .3, 1),
+      opacity .26s ease,
+      visibility .34s;
+  }
+
+  .js-nav .gnav.is-open .gnav__list {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .js-nav .gnav__list a { border-bottom: 1px solid var(--line); }
+  .js-nav .gnav__list li:last-child a { border-bottom: none; }
+
+  .gnav__list { flex-wrap: wrap; }
+  .gnav__list li { flex: 1 1 50%; }
+  /* 事業所名の項目だけは横幅いっぱいに使い、行数を抑える */
+  .gnav__list .gnav__about { flex: 1 1 100%; }
+  /* 畳んだメニューの中では1項目ずつ縦に並べる */
+  .js-nav .gnav__list li,
+  .js-nav .gnav__list .gnav__about { flex: 1 1 auto; }
+  .gnav__list a { border-bottom: 1px solid var(--line); font-size: 14px; padding: 14px 6px; }
+  .gnav__list a[aria-current="page"] { border-bottom: 3px solid var(--green); }
+  /* モバイルでは固定背景を解除（描画が重くなるため） */
+  .recruit { background-attachment: scroll; }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .section { padding: 60px 0 66px; }
+  .wrap, .wrap-narrow { width: calc(100% - 36px); }
+  .header__contact { flex-direction: column; gap: 12px; }
+  .header__tel { text-align: center; }
+  .service { flex-direction: column; align-items: center; text-align: center; padding: 32px 24px; }
+  .hero__copy { left: 24px; right: 24px; bottom: 34px; }
+  .recruit { padding: 74px 0 82px; }
+  /* 縦積みになると align-items: flex-start が「左寄せ」として効いてしまうため、
+     モバイルだけ中央揃えに上書きする（PC の横並びには影響しない）。 */
+  /* 画面右上に固定したメニューボタンと縦に重ならないよう、ロゴの上に余白を取る */
+  .js-nav .header__inner { padding-top: 62px; }
+
+  .footer__inner { flex-direction: column; align-items: center; gap: 30px; }
+}
+
+/* --------------------------------------------------------------------------
+   スクロール演出
+   JS が動いたときだけ .js-anim が付くので、JS 無効時は通常表示のまま
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+
+  .js-anim [data-reveal] {
+    opacity: 0;
+    transition:
+      opacity 1.3s cubic-bezier(.22, .68, .3, 1),
+      transform 1.3s cubic-bezier(.22, .68, .3, 1);
+    will-change: opacity, transform;
+  }
+
+  /* 見出し … 少し沈んだ位置から浮き上がり、わずかに開く */
+  .js-anim [data-reveal="head"]  { transform: translateY(26px) scale(.965); }
+  /* カード（左列） … 左から差し込む */
+  .js-anim [data-reveal="left"]  { transform: translateX(-34px); }
+  /* カード（右列） … 右から差し込む */
+  .js-anim [data-reveal="right"] { transform: translateX(34px); }
+  /* 本文 … 動きは最小限にして読みやすさを優先 */
+  .js-anim [data-reveal="text"]  { transform: translateY(12px); }
+  /* 大きなカード … 奥から迫り出す */
+  .js-anim [data-reveal="zoom"]  { transform: scale(.955) translateY(16px); }
+  /* ボタン … 下から遅れて追いつく */
+  .js-anim [data-reveal="btn"]   { transform: translateY(20px); }
+  /* ぼかし … 位置は動かさず、あしらいから焦点が合っていく */
+  .js-anim [data-reveal="focus"] {
+    transform: none;
+    filter: blur(9px);
+    transition:
+      opacity 1.3s cubic-bezier(.22, .68, .3, 1),
+      filter 1.3s cubic-bezier(.22, .68, .3, 1);
+  }
+  .js-anim [data-reveal="focus"].is-in { filter: blur(0); }
+  /* 一覧の行 … 表なので移動は最小限、代わりに軽快に出す */
+  .js-anim [data-reveal="row"] {
+    transform: translateY(10px);
+    transition:
+      opacity .75s cubic-bezier(.22, .68, .3, 1),
+      transform .75s cubic-bezier(.22, .68, .3, 1);
+  }
+
+  .js-anim [data-reveal].is-in { opacity: 1; transform: none; }
+
+  /* 1カラムになる幅では左右スライドが不自然なので上下に統一 */
+  @media (max-width: 900px) {
+    .js-anim [data-reveal="left"],
+    .js-anim [data-reveal="right"] { transform: translateY(24px); }
+  }
+
+  /* ヒーローのコピー … 読み込み後に1文字ずつ浮かび上がる。
+     1文字ずつの待ち時間は main.js 側で付ける。 */
+  .js-anim .hero__copy p span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity .85s cubic-bezier(.22, .68, .3, 1),
+      transform .85s cubic-bezier(.22, .68, .3, 1);
+  }
+  .js-anim .hero__copy.is-in p span { opacity: 1; transform: none; }
+}

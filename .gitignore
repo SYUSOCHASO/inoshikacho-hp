@@ -1,0 +1,7 @@
+# ローカルの開発用設定（プレビューサーバーの起動設定など）
+.claude/
+
+# OS が勝手に作るファイル
+Thumbs.db
+desktop.ini
+.DS_Store

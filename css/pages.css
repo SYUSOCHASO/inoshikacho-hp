@@ -85,6 +85,10 @@
 
 .creed__body { margin: 0; }
 
+.creed__body + .creed__body { margin-top: 1em; }
+
+.creed__lead { font-size: 1.15em; font-weight: 700; text-align: center; }
+
 .creed__list { list-style: none; margin: 0; padding: 0; counter-reset: creed; }
 
 .creed__list li { position: relative; padding-left: 2.4em; margin-bottom: 4px; }

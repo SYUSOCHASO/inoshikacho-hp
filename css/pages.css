@@ -149,6 +149,8 @@
 .company dd { flex: 1 1 320px; margin: 0; }
 .company dd span { display: block; }
 
+.company dd a { color: inherit; overflow-wrap: anywhere; }
+
 /* --- 事業内容（6ブロック） --------------------------------------------- */
 .biz { padding: 76px 0 80px; }
 .biz--cream { background: var(--cream-bg); }

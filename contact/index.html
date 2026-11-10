@@ -64,15 +64,21 @@
 <section class="section section--cream section--tight">
   <div class="wrap">
     <!--
-      送信先が未定のため、現在このフォームは送信処理を行いません。
-      メールアドレス／送信方式が決まったら、下記 form の action と method を設定し、
-      ページ末尾のスクリプト（送信停止処理）を削除してください。
+      送信には FormSubmit（https://formsubmit.co/）を利用しています。
+      入力内容は inoshikachoufukushi@gmail.com 宛てにメールで届きます。
+      name 属性はそのままメールの項目名になります（email だけは返信先に使われるので変更しないこと）。
     -->
-    <form class="form" id="contactForm" action="TODO-FORM-ENDPOINT" method="post" novalidate>
+    <form class="form" id="contactForm" action="https://formsubmit.co/inoshikachoufukushi@gmail.com" method="post" accept-charset="UTF-8" novalidate>
+      <!-- FormSubmit の設定 -->
+      <input type="hidden" name="_subject" value="【訪問介護いのしかちょう】ホームページからのお問い合わせ">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://inoshikachoufukushi.com/contact/?sent=1">
+      <!-- 迷惑送信対策（人には見えない入力欄。入力があれば送信されない） -->
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
 
       <div class="form__row">
         <label class="form__label" for="subject">お問合せ<span class="form__req">（必須）</span></label>
-        <select id="subject" name="subject" required>
+        <select id="subject" name="お問合せ種別" required>
           <option value="ご利用について">ご利用について</option>
           <option value="採用について">採用について</option>
           <option value="そのほか">そのほか</option>
@@ -81,12 +87,12 @@
 
       <div class="form__row">
         <label class="form__label" for="name">お名前<span class="form__req">（必須）</span></label>
-        <input type="text" id="name" name="name" placeholder="お名前をご記入ください" required>
+        <input type="text" id="name" name="お名前" placeholder="お名前をご記入ください" required>
       </div>
 
       <div class="form__row">
         <label class="form__label" for="kana">お名前（ふりがな）<span class="form__req">（必須）</span></label>
-        <input type="text" id="kana" name="kana" placeholder="お名前の「ふりがな」をご記入ください" required>
+        <input type="text" id="kana" name="ふりがな" placeholder="お名前の「ふりがな」をご記入ください" required>
       </div>
 
       <div class="form__row">
@@ -96,18 +102,18 @@
 
       <div class="form__row">
         <label class="form__label" for="tel">電話番号<span class="form__req">（必須）</span></label>
-        <input type="tel" id="tel" name="tel" placeholder="000-000-0000" required>
+        <input type="tel" id="tel" name="電話番号" placeholder="000-000-0000" required>
       </div>
 
       <div class="form__row">
         <label class="form__label" for="body">お問い合わせ内容<span class="form__req">（必須）</span></label>
-        <textarea id="body" name="body" required></textarea>
+        <textarea id="body" name="お問い合わせ内容" required></textarea>
       </div>
 
       <p class="form__note">お問い合わせの際には「<a href="../privacypolicy/">プライバシーポリシー</a>」をお読みいただきまして、同意の上、お問い合わせください。</p>
 
       <label class="form__check">
-        <input type="checkbox" name="agree" required>
+        <input type="checkbox" name="個人情報の取り扱い" value="同意する" required>
         個人情報の取り扱いについて同意する<span class="form__req">（必須）</span>
       </label>
 
@@ -175,26 +181,43 @@
 
 <script>
 /* ------------------------------------------------------------------
-   入力チェック ＋ 送信の一時停止
-   送信先（メールアドレス／送信方式）が決まるまで、実際の送信は行わない。
-   決まったら form の action を設定し、このスクリプトを削除する。
+   入力チェック ＋ 送信完了メッセージ
+   送信そのものは form の action（FormSubmit）にブラウザが直接行う。
+   送信後は _next の指定で ?sent=1 付きでこのページに戻ってくる。
    ------------------------------------------------------------------ */
 (function () {
   var form = document.getElementById('contactForm');
   var msg = document.getElementById('formMsg');
   if (!form || !msg) return;
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  /* 送信完了後に戻ってきたとき */
+  if (/[?&]sent=1(&|$)/.test(location.search)) {
+    msg.textContent = 'お問い合わせを送信しました。内容を確認のうえ、電話またはメールにてご連絡いたします。';
+    msg.classList.add('is-shown');
+    msg.scrollIntoView({ block: 'center' });
+    /* 再読み込みで同じ表示が出続けないよう、URL から目印を外す */
+    if (history.replaceState) history.replaceState(null, '', location.pathname);
+  }
 
+  var sending = false;
+  form.addEventListener('submit', function (e) {
     if (!form.checkValidity()) {
+      e.preventDefault();
       form.reportValidity();
       return;
     }
+    /* 二重送信の防止 */
+    if (sending) { e.preventDefault(); return; }
+    sending = true;
+    var btn = form.querySelector('button[type="submit"]');
+    if (btn) btn.textContent = '送信中…';
+  });
 
-    msg.textContent = '入力内容に問題はありません。ただし送信先が未設定のため、現在このフォームからは送信できません。お手数ですが、お電話（06-6796-7943）にてお問い合わせください。';
-    msg.classList.add('is-shown');
-    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  /* 「戻る」で戻ってきたときに送信中のまま固まらないようにする */
+  window.addEventListener('pageshow', function () {
+    sending = false;
+    var btn = form.querySelector('button[type="submit"]');
+    if (btn) btn.textContent = '送信';
   });
 })();
 </script>
